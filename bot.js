@@ -151,15 +151,15 @@ bot.on("messageUpdate", (msg, newMsg) => {
 });
 
 bot.on("messageDeleteBulk", messages => {
-	if(msg.channel.id != "253661179702935552") {
+	if(messages.first().channel.id != "253661179702935552") {
 		var del = new Discord.RichEmbed();
 		del.setColor(0xFF0000)
 			.setTitle("Messages Deleted [Bulk]")
-			.addField('Channel', '<#' + msg.channel.id + '>')
+			.addField('Channel', '<#' + messages.first().channel.id + '>')
 		messages.forEach(msg => {
 			del.addField(msg.member.displayName, msg.content)
 		})
-		del.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
+		del.setFooter(`FRC Discord Server Moderation Team`, `${messages.first().guild.iconURL}`)
 			.setTimestamp()
 		bot.channels.get('320680450488008704').send({embed: del});
 	}
