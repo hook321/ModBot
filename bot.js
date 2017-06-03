@@ -130,8 +130,8 @@ bot.on("messageDelete", msg => {
 	var del = new Discord.RichEmbed();
 	del.setColor(0xFF0000)
 		.setTitle("Message Deleted")
-		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
-		.addField('Channel', '<#' + msg.channel.id + '>')
+		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')', true)
+		.addField('Channel', '<#' + msg.channel.id + '>', true)
 		.addField('Content', msg.content)
 		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
@@ -144,8 +144,8 @@ bot.on("messageUpdate", (msg, newMsg) => {
 		var del = new Discord.RichEmbed();
 		del.setColor(0xFFFF00)
 			.setTitle("Message Updated")
-			.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
-			.addField('Channel', '<#' + msg.channel.id + '>')
+			.addField('User', msg.author.username + '#' + msg.author.discriminator + ' (' + msg.author.id + ')', true)
+			.addField('Channel', '<#' + msg.channel.id + '>', true)
 			.addField('Old Content', msg.content || 'Error')
 			.addField('New Content', newMsg.content || 'Error')
 			.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
@@ -159,7 +159,7 @@ bot.on("messageDeleteBulk", messages => {
 		var del = new Discord.RichEmbed();
 		del.setColor(0xFF0000)
 			.setTitle("Messages Deleted [Bulk]")
-			.addField('Channel', '<#' + messages.first().channel.id + '>')
+			.addField('Channel', '<#' + messages.first().channel.id + '>', true)
 		messages.forEach(msg => {
 			del.addField(msg.member.displayName, msg.content)
 		})
