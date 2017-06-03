@@ -212,7 +212,7 @@ function loadPlugins() {
 }
 
 function roleCheck(member) {
-	if(member.roles.exists('name', 'Admins') || member.roles.exists('name', 'Moderators') || member.roles.exists('name', 'Helpers')
+	if(member.roles.exists('name', 'Admins') || member.roles.exists('name', 'Moderators') || member.roles.exists('name', 'Helpers'))
 		return true;
 	else
 		return false;
