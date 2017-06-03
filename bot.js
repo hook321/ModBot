@@ -127,7 +127,7 @@ bot.on("guildBanAdd", (guild, user) => {
 
 bot.on("messageDelete", msg => {
 	var del = new Discord.RichEmbed();
-	del.setColor(0x00FF00)
+	del.setColor(0xFF0000)
 		.setTitle("Message Deleted")
 		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
 		.addField('Channel', '<#' + msg.channel.id + '>')
@@ -139,13 +139,26 @@ bot.on("messageDelete", msg => {
 
 bot.on("messageUpdate", (msg, newMsg) => {
 	var del = new Discord.RichEmbed();
-	del.setColor(0x00FF00)
+	del.setColor(0xFFFF00)
 		.setTitle("Message Updated")
 		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
 		.addField('Channel', '<#' + msg.channel.id + '>')
 		.addField('Old Content', msg.content)
 		.addField('New Content', newMsg.content)
 		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
+		.setTimestamp()
+	bot.channels.get('320680450488008704').send({embed: del});
+});
+
+bot.on("messageDeleteBulk", messages => {
+	var del = new Discord.RichEmbed();
+	del.setColor(0xFF0000)
+		.setTitle("Messages Deleted [Bulk]")
+		.addField('Channel', '<#' + msg.channel.id + '>')
+	messages.forEach(msg => {
+		del.addField(msg.member.displayName, msg.content)
+	})
+	del.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
 	bot.channels.get('320680450488008704').send({embed: del});
 });
