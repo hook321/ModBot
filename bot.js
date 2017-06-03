@@ -128,12 +128,13 @@ bot.on("guildBanAdd", (guild, user) => {
 bot.on('messageDelete', (msg) => {
 	var del = new Discord.RichEmbed();
 	del.setColor(0x00FF00)
-		.setAuthor(user.username, user.avatarURL)
-		.addField('Message Deleted', `**${msg.author.username} (${msg.author.id}) deleted a message.**`)
+		.setTitle("Message Deleted")
+		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
+		.addField('Channel', '<#' + msg.channel.id + '>')
 		.addField('Content', msg.content)
 		.setFooter(`FRC Discord Server Moderation Team`, `${guild.iconURL}`)
 		.setTimestamp()
-	bot.channels.get('267837014014033931').send({"embed": ban});
+	bot.channels.get('320680450488008704').send({"embed": del});
 });
 
 bot.on("voiceStateUpdate", (oldMember, newMember) => {
