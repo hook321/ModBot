@@ -143,7 +143,7 @@ bot.on("messageUpdate", (msg, newMsg) => {
 		.setTitle("Message Updated")
 		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
 		.addField('Channel', '<#' + msg.channel.id + '>')
-		.addField('Old Content', msg.content)
+		.addField('Old Content', msg.content || 'Error')
 		.addField('New Content', newMsg.content)
 		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
