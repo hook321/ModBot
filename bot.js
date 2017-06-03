@@ -162,7 +162,7 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 	}
 });
 
-bot.login(config.token).then({
+bot.login(config.token).then(() => {
 	var str = "";
 	var currentTime = new Date()
 	var hours = currentTime.getHours()
