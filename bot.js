@@ -125,7 +125,7 @@ bot.on("guildBanAdd", (guild, user) => {
 	bot.channels.get('267837014014033931').send({"embed": ban});
 });
 
-bot.on("messageDelete", (msg) => {
+bot.on("messageDelete", msg => {
 	var del = new Discord.RichEmbed();
 	del.setColor(0x00FF00)
 		.setTitle("Message Deleted")
