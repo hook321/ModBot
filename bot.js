@@ -144,7 +144,7 @@ bot.on("messageUpdate", (msg, newMsg) => {
 		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
 		.addField('Channel', '<#' + msg.channel.id + '>')
 		.addField('Old Content', msg.content || 'Error')
-		.addField('New Content', newMsg.content)
+		.addField('New Content', newMsg.content || 'Error')
 		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
 	bot.channels.get('320680450488008704').send({embed: del});
