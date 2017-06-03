@@ -132,7 +132,7 @@ bot.on("messageDelete", (msg) => {
 		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')')
 		.addField('Channel', '<#' + msg.channel.id + '>')
 		.addField('Content', msg.content)
-		.setFooter(`FRC Discord Server Moderation Team`, `${guild.iconURL}`)
+		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
 	bot.channels.get('320680450488008704').send({embed: del});
 });
@@ -145,7 +145,7 @@ bot.on("messageUpdate", (msg, newMsg) => {
 		.addField('Channel', '<#' + msg.channel.id + '>')
 		.addField('Old Content', msg.content)
 		.addField('New Content', newMsg.content)
-		.setFooter(`FRC Discord Server Moderation Team`, `${guild.iconURL}`)
+		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
 	bot.channels.get('320680450488008704').send({embed: del});
 });
