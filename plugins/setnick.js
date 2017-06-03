@@ -8,7 +8,7 @@ module.exports = {
 		if (msg.member.hasPermission('MANAGE_NICKNAMES') || msg.member.hasPermission('ADMINISTRATOR') || isCommander.indexOf(msg.author.id) > -1) {
 			var user = msg.mentions.users.array()[0];
 			var newNick = msg.content.split(" ").splice(1).join(" ").trim();
-			msg.guild.members.get(user).setNickname(newNick)
+			msg.guild.members.get(user.id).setNickname(newNick)
 			.then(member => msg.channel.send(user.username + '\'s nickname has been successfully set to `' + newNick + '`!'))
 		} else {
 			msg.channel.send(":x: You do not have the necessary permissions to perform this action!")
