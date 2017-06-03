@@ -55,7 +55,9 @@ bot.on("message", (msg) => {
 
 				msg.author.send("Thank you for reading the rules and regulations. We would like to welcome you to the FIRST Robotics Competition Discord Server! " +
 					"Please follow the server rules and have fun! Don't hesitate to ping a member of the moderation team " +
-					"if you have any questions! \n\n*Please change your nick with '/nick NAME - TEAM#' to reflect your team number!*");
+					"if you have any questions! \n\n*Please change your nick with '/nick NAME - TEAM#' to reflect your team number," +
+					" or your role in FIRST Robotics if you are not affiliated with a team. If you are not a part of or affiliated directly " + 
+					"with a FIRST Robotics Competition team or the program itself, please contact an administrator for further details.*");
 
 				msg.guild.channels.get('253661179702935552').fetchMessages({
 					limit: 4
@@ -87,58 +89,51 @@ bot.on("message", (msg) => {
 });
 
 bot.on("guildMemberAdd", (member) => {
-	if (member.guild.id === "176186766946992128") {
-		bot.channels.get('200090417809719296').send(member + " joined the server");
-
-		member.guild.channels.get('253661179702935552').send("Welcome " + member + " to the FIRST® Robotics Competition server! " +
-			"You are currently unable to see the server's main channels. " +
-			"To gain access to the rest of the server, please read the rules in <#288856064089128960>.");
-	} else {
-		var channel = member.guild.channels.find('name', 'logs') || member.guild.channels.find('name', 'member-logs') || member.guild.defaultChannel;
-		if (member.id == '171319044715053057')
-			channel.send(`**${member} (Developer of RoBot) has joined the server.**`)
-		else
-			channel.send(`Welcome ${member} to the server!`)
-	}
+	bot.channels.get('200090417809719296').send(member + " joined the server");
+	member.guild.channels.get('253661179702935552').send("Welcome " + member + " to the FIRST® Robotics Competition server! " +
+		"You are currently unable to see the server's main channels. " +
+		"To gain access to the rest of the server, please read the rules in <#288856064089128960>.");
 });
 
 bot.on("guildMemberRemove", (member) => {
-	if(member.guild.id == "176186766946992128") {
-		var leave = new Discord.RichEmbed();
-		leave.setColor(0xFF0000)
-			.setAuthor(member.user.username, member.user.avatarURL)
-			.addField('Member Left', `*${member.user.username}#${member.user.discriminator} left the server.*`)
-			.setFooter(`FRC Discord Server | ${member.guild.members.size} members`, `${member.guild.iconURL}`)
-			.setTimestamp()
-		bot.channels.get('267837014014033931').send({"embed": leave});
-	} else {
-		var channel = member.guild.channels.find('name', 'logs') || member.guild.channels.find('name', 'member-logs') || member.guild.defaultChannel;
-		channel.send(`${member.user.username} left the server.`)
-	}
+	var leave = new Discord.RichEmbed();
+	leave.setColor(0xFF0000)
+		.setAuthor(member.user.username, member.user.avatarURL)
+		.addField('Member Left', `*${member.user.username}#${member.user.discriminator} left the server.*`)
+		.setFooter(`FRC Discord Server | ${member.guild.members.size} members`, `${member.guild.iconURL}`)
+		.setTimestamp()
+	bot.channels.get('267837014014033931').send({"embed": leave});
 });
 
 bot.on("guildBanRemove", (guild, user) => {
-	if(guild.id == "176186766946992128") {
-		var ban = new Discord.RichEmbed();
-			ban.setColor(0x00FF00)
-				.setAuthor(user.username, user.avatarURL)
-				.addField('Member Unbanned', `**${user.username}#${user.discriminator} (${user.id}) was unbanned from the server.**`)
-				.setFooter(`FRC Discord Server | ${guild.members.size} members`, `${guild.iconURL}`)
-				.setTimestamp()
-			bot.channels.get('267837014014033931').send({"embed": ban});
-	}
-});
-
-bot.on("guildBanAdd", (guild, user) => {
-	if(guild.id == "176186766946992128") {
-		var ban = new Discord.RichEmbed();
-		ban.setColor(0xFF00FF)
+	var ban = new Discord.RichEmbed();
+		ban.setColor(0x00FF00)
 			.setAuthor(user.username, user.avatarURL)
-			.addField('Member Banned', `**:hammer: ${user.username}#${user.discriminator} (${user.id}) was banned from the server.**`)
+			.addField('Member Unbanned', `**${user.username}#${user.discriminator} (${user.id}) was unbanned from the server.**`)
 			.setFooter(`FRC Discord Server | ${guild.members.size} members`, `${guild.iconURL}`)
 			.setTimestamp()
 		bot.channels.get('267837014014033931').send({"embed": ban});
-	}
+});
+
+bot.on("guildBanAdd", (guild, user) => {
+	var ban = new Discord.RichEmbed();
+	ban.setColor(0xFF00FF)
+		.setAuthor(user.username, user.avatarURL)
+		.addField('Member Banned', `**:hammer: ${user.username}#${user.discriminator} (${user.id}) was banned from the server.**`)
+		.setFooter(`FRC Discord Server | ${guild.members.size} members`, `${guild.iconURL}`)
+		.setTimestamp()
+	bot.channels.get('267837014014033931').send({"embed": ban});
+});
+
+bot.on('messageDelete', (msg) => {
+	var del = new Discord.RichEmbed();
+	del.setColor(0x00FF00)
+		.setAuthor(user.username, user.avatarURL)
+		.addField('Message Deleted', `**${msg.author.username} (${msg.author.id}) deleted a message.**`)
+		.addField('Content', msg.content)
+		.setFooter(`FRC Discord Server Moderation Team`, `${guild.iconURL}`)
+		.setTimestamp()
+	bot.channels.get('267837014014033931').send({"embed": ban});
 });
 
 bot.on("voiceStateUpdate", (oldMember, newMember) => {
