@@ -137,7 +137,7 @@ bot.on("messageDelete", (msg) => {
 	bot.channels.get('320680450488008704').send({embed: del});
 });
 
-bot.on("messageUpdate"), (msg, newMsg) => {
+bot.on("messageUpdate", (msg, newMsg) => {
 	var del = new Discord.RichEmbed();
 	del.setColor(0x00FF00)
 		.setTitle("Message Updated")
