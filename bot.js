@@ -25,24 +25,6 @@ let plugins = new Map();
 console.log("Moderation Bot is ready! Loading plugins...");
 loadPlugins();
 
-bot.on("ready", () => {
-	sendServerCount(bot);
-
-	var str = "";
-	var currentTime = new Date()
-	var hours = currentTime.getHours()
-	var minutes = currentTime.getMinutes()
-	var seconds = currentTime.getSeconds()
-	if (minutes < 10)
-		minutes = "0" + minutes;
-	if (seconds < 10)
-		seconds = "0" + seconds;
-	str += hours + ":" + minutes + ":" + seconds;
-	console.log("Bot Online and Ready!");
-	bot.channels.get('304790274058485760').send(":stopwatch: `" + str + "` Moderation Bot is online and ready!");
-	bot.user.setGame('FRC Moderation Bot v1.0');
-});
-
 bot.on("message", (msg) => {
 	var n = msg.createdAt.toTimeString();
 	var str = n.substring(0, n.indexOf(" "));
@@ -90,7 +72,7 @@ bot.on("message", (msg) => {
 
 		if(msg.author.bot) return;
 
-		if (msg.content.startsWith(PREFIX) && roleCheck(msg.member)) {
+		if (msg.content.startsWith(PREFIX) && roleCheck(msg.member) == true) {
 			var content = msg.content.substring(PREFIX.length, msg.content.length);
 			var cmd = content.substring(0, content.indexOf(" ")),
 				args = content.substring(content.indexOf(" ") + 1, content.length);
@@ -180,7 +162,21 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 	}
 });
 
-bot.login(config.token);
+bot.login(config.token).then({
+	var str = "";
+	var currentTime = new Date()
+	var hours = currentTime.getHours()
+	var minutes = currentTime.getMinutes()
+	var seconds = currentTime.getSeconds()
+	if (minutes < 10)
+		minutes = "0" + minutes;
+	if (seconds < 10)
+		seconds = "0" + seconds;
+	str += hours + ":" + minutes + ":" + seconds;
+	console.log("Bot Online and Ready!");
+	bot.channels.get('304790274058485760').send(":stopwatch: `" + str + "` Moderation Bot is online and ready!");
+	bot.user.setGame('FRC Moderation Bot v1.0');
+})
 
 function command(msg, cmd, args, content) {
 	if (plugins.get(cmd) !== undefined && content.indexOf(" ") !== -1) {
