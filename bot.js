@@ -70,12 +70,15 @@ bot.on("message", (msg) => {
 
 		console.log(gray("[" + str + "] ") + guil(msg.guild.name) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + " | " + message(msg.cleanContent));
 
-		if(msg.author.bot) return;
-
-		if (msg.content.startsWith(PREFIX) && roleCheck(msg.member) == true) {
+		if(msg.author.bot || !msg.content.startsWith(PREFIX)) return;
+		
+		if (roleCheck(msg.member)) {
 			var content = msg.content.substring(PREFIX.length, msg.content.length);
 			var cmd = content.substring(0, content.indexOf(" ")),
 				args = content.substring(content.indexOf(" ") + 1, content.length);
+			command(msg, cmd, args, content);
+		} else {
+			msg.channel.send("Sorry, but only members of the moderation team can use this bot.")
 		}
 	} else {
 		if(msg.author.bot) return;
