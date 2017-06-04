@@ -74,14 +74,10 @@ bot.on("message", (msg) => {
 
 		if(msg.author.bot || !msg.content.startsWith(PREFIX)) return;
 		
-		if (roleCheck(msg.member)) {
-			var content = msg.content.substring(PREFIX.length, msg.content.length);
-			var cmd = content.substring(0, content.indexOf(" ")),
-				args = content.substring(content.indexOf(" ") + 1, content.length);
-			command(msg, cmd, args, content);
-		} else {
-			msg.channel.send("Sorry, but only members of the moderation team can use this bot.")
-		}
+		var content = msg.content.substring(PREFIX.length, msg.content.length),
+			cmd = content.substring(0, content.indexOf(" ")),
+			args = content.substring(content.indexOf(" ") + 1, content.length);
+		command(msg, cmd, args, content);
 	} else {
 		if(msg.author.bot) return;
 		msg.channel.send("This bot cannot be used in DMs!");
@@ -210,19 +206,21 @@ bot.login(config.token).then(() => {
 })
 
 function command(msg, cmd, args, content) {
-	if (plugins.get(cmd) !== undefined && content.indexOf(" ") !== -1) {
-		console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
-		bot.channels.get('304790274058485760').send(msg.author.username + ' executed: `' + msg.content + '`')
-		
-		msg.content = args;
-		plugins.get(cmd).main(bot, msg);
-	} else if (plugins.get(content) !== undefined && content.indexOf(" ") < 0) {
-		console.log(cmand('[NOARGS] ' + msg.author.username + " executed: " + content));
-		bot.channels.get('304790274058485760').send(msg.author.username + ' executed: `' + msg.content + '`')
-		
-		plugins.get(content).main(bot, msg);
-	} else {
-		console.log("ERROR:" + content);
+	if(plugins.get(cmd) !== undefined || plugins.get(content) !== undefined) {
+		if(roleCheck(msg.author)) {
+			if (content.indexOf(" ") > -1) {
+				console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
+				bot.channels.get('304790274058485760').send(msg.author.username + ' executed: `' + msg.content + '`')
+				msg.content = args;
+				plugins.get(cmd).main(bot, msg);
+			} else if (content.indexOf(" ") < 0) {
+				console.log(cmand('[NOARGS] ' + msg.author.username + " executed: " + content));
+				bot.channels.get('304790274058485760').send(msg.author.username + ' executed: `' + msg.content + '`')
+				plugins.get(content).main(bot, msg);
+			}
+		} else {
+			msg.channel.send('Sorry, but only members of the moderation team may use this bot.');
+		}
 	}
 }
 
