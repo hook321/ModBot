@@ -20,7 +20,7 @@ module.exports = {
 				if (evaled === null) evaled = 'null';
 
 				embed.setColor(0x00FF00)
-				.setTitle("RoBot Javascript Evaluation Complete")
+				.setTitle(bot.user.username + " Javascript Evaluation Complete")
 				.setFooter(`${msg.author.username}`, `${msg.author.avatarURL}`)
 				.setTimestamp()
 				.addField('Code', "```js\n" + clean(code) + "```")
@@ -33,7 +33,7 @@ module.exports = {
 				msg.channel.send({embed:embed})
 			} catch (err) {
 				embed.setColor(0xFF0000)
-				.setTitle(":rotating_light: ERROR THROWN :rotating_light: in RoBot Javascript Evaluation")
+				.setTitle(":rotating_light: ERROR THROWN :rotating_light: in " + bot.user.username + " Javascript Evaluation")
 				.setFooter(`${msg.author.username}`, `${msg.author.avatarURL}`)
 				.setTimestamp()
 				.addField('Code', "```js\n" + clean(code) + "```")
