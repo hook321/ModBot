@@ -122,6 +122,7 @@ bot.on("guildBanAdd", (guild, user) => {
 });
 
 bot.on("messageDelete", msg => {
+	if(!msg) return;
 	if(msg.author.bot) return;
 	var del = new Discord.RichEmbed();
 	del.setColor(0xFF0000)
@@ -135,7 +136,9 @@ bot.on("messageDelete", msg => {
 });
 
 bot.on("messageUpdate", (msg, newMsg) => {
+	if(!msg || !newMsg) return;
 	if(msg.author.bot) return;
+	if(msg.content == newMsg.content) return;
 	if(msg.channel.id != "320680450488008704") {
 		var del = new Discord.RichEmbed();
 		del.setColor(0xFFFF00)

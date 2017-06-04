@@ -17,6 +17,8 @@ module.exports = {
 				if(reason == "")
 					var reason = "Not specified.";
 				
+				user.send("**You have been kicked from the FIRST® Robotics Competition server for:**\n" + reason + "\n\n**Responsible Moderator:**\n" + msg.member.displayName +
+				"\n\n*If you would like to appeal the ban, feel free to DM an Admin at any time (ASIANBOI#2345 or TPG#9596). Have a great day!*")
 				kicked.kick(reason);
 
 				msg.reply(banee + " has been successfullly kicked.");
