@@ -207,7 +207,7 @@ bot.login(config.token).then(() => {
 
 function command(msg, cmd, args, content) {
 	if(plugins.get(cmd) !== undefined || plugins.get(content) !== undefined) {
-		if(roleCheck(msg.author)) {
+		if(roleCheck(msg.member)) {
 			if (content.indexOf(" ") > -1) {
 				console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
 				bot.channels.get('304790274058485760').send(msg.author.username + ' executed: `' + msg.content + '`')
