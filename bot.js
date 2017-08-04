@@ -34,7 +34,7 @@ bot.on("message", (msg) => {
 			var day = new Date().getDate();
 			var month = new Date().getMonth() + 1;
 			var year = new Date().getFullYear();
-			var displayName == msg.member.displayName || msg.author.username;
+			var displayName = msg.member.displayName || msg.author.username;
 
 			db.serialize(function() {
 				db.run(`CREATE TABLE IF NOT EXISTS frc_logs_${month}_${day}_${year} (MSGINDEX INTEGER PRIMARY KEY, TIME DATETIME DEFAULT CURRENT_TIMESTAMP, CHANNEL_ID VARCHAR(32) NOT NULL, CHANNEL_NAME VARCHAR(32) NOT NULL, AUTHOR_ID VARCHAR(32) NOT NULL, AUTHOR_NAME VARCHAR(32) NOT NULL, AUTHOR_NICKNAME VARCHAR(32), MESSAGE VARCHAR(2000) NOT NULL)`);
