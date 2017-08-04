@@ -34,11 +34,12 @@ bot.on("message", (msg) => {
 			var day = new Date().getDate();
 			var month = new Date().getMonth() + 1;
 			var year = new Date().getFullYear();
+			var displayName == msg.member.displayName || msg.author.username;
 
 			db.serialize(function() {
 				db.run(`CREATE TABLE IF NOT EXISTS frc_logs_${month}_${day}_${year} (MSGINDEX INTEGER PRIMARY KEY, TIME DATETIME DEFAULT CURRENT_TIMESTAMP, CHANNEL_ID VARCHAR(32) NOT NULL, CHANNEL_NAME VARCHAR(32) NOT NULL, AUTHOR_ID VARCHAR(32) NOT NULL, AUTHOR_NAME VARCHAR(32) NOT NULL, AUTHOR_NICKNAME VARCHAR(32), MESSAGE VARCHAR(2000) NOT NULL)`);
 				var stmt = db.prepare(`INSERT INTO frc_logs_${month}_${day}_${year} (CHANNEL_ID, CHANNEL_NAME, AUTHOR_ID, AUTHOR_NAME, AUTHOR_NICKNAME, MESSAGE) VALUES (?, ?, ?, ?, ?, ?)`);
-				stmt.run(msg.channel.id, msg.channel.name, msg.author.id, msg.author.username, msg.member.displayName, msg.cleanContent);
+				stmt.run(msg.channel.id, msg.channel.name, msg.author.id, msg.author.username, displayName, msg.cleanContent);
 				stmt.finalize();
 			});
 
@@ -68,6 +69,16 @@ bot.on("message", (msg) => {
 					msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#288856064089128960> to enter the server!");
 				})
 			}
+		}
+		
+		if(!msg.author.bot && !msg.member.hasPermission("MANAGE_MESSAGES") && msg.content == "") {
+			msg.delete().then(msg => {
+				msg.channel.send(":warning: No selfbot embed spam please!").then(msg => {
+					setTimeout(() => {
+						msg.delete();
+					}, 2000);
+				});
+			})
 		}
 
 		console.log(gray("[" + str + "] ") + guil(msg.guild.name) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + " | " + message(msg.cleanContent));
@@ -125,14 +136,23 @@ bot.on("messageDelete", msg => {
 	if(!msg) return;
 	if(msg.author.bot) return;
 	var del = new Discord.RichEmbed();
+	var channel = msg.channel || "Error";
 	del.setColor(0xFF0000)
 		.setTitle("Message Deleted")
 		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')', true)
-		.addField('Channel', '<#' + msg.channel.id + '>', true)
+		.addField('Channel', msg.channel, true)
 		.addField('Content', msg.content)
 		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
-	bot.channels.get('320680450488008704').send({embed: del});
+	if(message.attachments.size == 0) {
+		bot.channels.get('320680450488008704').send({embed: del});
+	} else {
+		var urls = [];
+		for(var i = 0; i < msg.attachments.array(); i++) {
+			urls[i] = msg.attachments.array[0].url;
+		}
+		bot.channels.get('320680450488008704').send({embed: del, attachments: urls});
+	}
 });
 
 bot.on("messageUpdate", (msg, newMsg) => {
