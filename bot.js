@@ -71,7 +71,7 @@ bot.on("message", (msg) => {
 			}
 		}
 		
-		if(!msg.author.bot && !msg.member.hasPermission("MANAGE_MESSAGES") && msg.content == "") {
+		if(!msg.author.bot && !msg.member.hasPermission("MANAGE_MESSAGES") && msg.content == "" && msg.attachments.size == 0) {
 			msg.delete().then(msg => {
 				msg.channel.send(":warning: No selfbot embed spam please!").then(msg => {
 					setTimeout(() => {
@@ -144,7 +144,7 @@ bot.on("messageDelete", msg => {
 		.addField('Content', msg.content)
 		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
-	if(message.attachments.size == 0) {
+	if(msg.attachments.size == 0) {
 		bot.channels.get('320680450488008704').send({embed: del});
 	} else {
 		var urls = [];
