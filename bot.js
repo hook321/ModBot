@@ -141,7 +141,7 @@ bot.on("messageDelete", msg => {
 		.setTitle("Message Deleted")
 		.addField('User', msg.author.username + '#' + msg.author.discriminator + ' ( ' + msg.author.id + ')', true)
 		.addField('Channel', msg.channel, true)
-		.addField('Content', msg.content)
+		.addField('Content', msg.content || "None")
 		.setFooter(`FRC Discord Server Moderation Team`, `${msg.guild.iconURL}`)
 		.setTimestamp()
 	if(msg.attachments.size == 0) {
