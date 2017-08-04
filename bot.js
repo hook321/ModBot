@@ -223,9 +223,7 @@ bot.login(config.token).then(() => {
 	if (seconds < 10)
 		seconds = "0" + seconds;
 	str += hours + ":" + minutes + ":" + seconds;
-	console.log("Bot Online and Ready!");
-	bot.channels.get('304790274058485760').send(":stopwatch: `" + str + "` Moderation Bot is online and ready!");
-	bot.user.setGame('FRC Moderation Bot v1.0');
+	console.log(str + " | FRC Moderation Bot Online and Ready!");
 })
 
 function command(msg, cmd, args, content) {
@@ -233,12 +231,12 @@ function command(msg, cmd, args, content) {
 		if(roleCheck(msg.member)) {
 			if (content.indexOf(" ") > -1) {
 				console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
-				bot.channels.get('304790274058485760').send(msg.author.username + ' executed: `' + msg.content + '`')
+				bot.channels.get('320680450488008704').send(msg.author.username + ' executed: `' + msg.content + '`')
 				msg.content = args;
 				plugins.get(cmd).main(bot, msg);
 			} else if (content.indexOf(" ") < 0) {
 				console.log(cmand('[NOARGS] ' + msg.author.username + " executed: " + content));
-				bot.channels.get('304790274058485760').send(msg.author.username + ' executed: `' + msg.content + '`')
+				bot.channels.get('320680450488008704').send(msg.author.username + ' executed: `' + msg.content + '`')
 				plugins.get(content).main(bot, msg);
 			}
 		} else {
