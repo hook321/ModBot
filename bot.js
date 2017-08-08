@@ -61,11 +61,12 @@ bot.on("message", (msg) => {
 				"with a " + msg.guild.name + " team or the program itself, please contact an administrator for further details.*");
 
 			msg.channel.fetchMessages({
-				limit: 4
+				limit: 2
 			}).then(messages => {
 				msg.channel.bulkDelete(messages);
-				msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + member.guild.channels.get(config[config.servers[member.guild.id]].ruleschannel).id + "> to enter the server!");
 			})
+			
+			msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + member.guild.channels.get(config[config.servers[member.guild.id]].ruleschannel).id + "> to enter the server!");
 			
 			setTimeout(function() {
 				try {
