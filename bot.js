@@ -68,7 +68,7 @@ bot.on("message", (msg) => {
 				limit: 4
 			}).then(messages => {
 				msg.channel.bulkDelete(messages);
-				msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read #rules-info to enter the server!");
+				msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + member.guild.channels.get(config[config.servers[member.guild.id]].newmemberchannel).id + "> to enter the server!");
 			})
 		}
 		
@@ -103,7 +103,7 @@ bot.on("guildMemberAdd", (member) => {
 	
 	member.guild.channels.get(config[config.servers[member.guild.id]].newmemberchannel).send("Welcome " + member + " to the " + member.guild.name + " server! " +
 		"You are currently unable to see the server's main channels. " +
-		"To gain access to the rest of the server, please read the rules in #rules-info.");
+		"To gain access to the rest of the server, please read the rules in <#" + member.guild.channels.get(config[config.servers[member.guild.id]].newmemberchannel).id + ">.");
 });
 
 bot.on("guildMemberRemove", (member) => {
