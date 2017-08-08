@@ -47,7 +47,7 @@ bot.on("message", (msg) => {
 		
 		if (msg.content.includes("have read the rules and regulations") && msg.channel.id === config[config.servers[msg.guild.id]].newmemberchannel) {
 			msg.member.addRole(config[config.servers[msg.guild.id]].memberrole)
-			.then({
+			.then(msg => {
 				if(msg.guild.id == "176186766946992128")
 					bot.channels.get("200090417809719296").send(msg.author + " has entered the server.")
 			});
