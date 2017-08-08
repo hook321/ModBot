@@ -66,7 +66,7 @@ bot.on("message", (msg) => {
 				msg.channel.bulkDelete(messages);
 			})
 			
-			msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + msg.guild.channels.get(config[config.servers[member.guild.id]].ruleschannel).id + "> to enter the server!");
+			msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + msg.guild.channels.get(config[config.servers[msg.guild.id]].ruleschannel).id + "> to enter the server!");
 			
 			setTimeout(function() {
 				try {
