@@ -64,7 +64,7 @@ bot.on("message", (msg) => {
 				" or your role in FIRST Robotics if you are not affiliated with a team. If you are not a part of or affiliated directly " + 
 				"with a " + msg.guild.name + " team or the program itself, please contact an administrator for further details.*");
 
-			msg.guild.channels.get(config[config.servers[member.guild.id]].newmemberchannel).fetchMessages({
+			msg.guild.channels.get(config[config.servers[msg.guild.id]].newmemberchannel).fetchMessages({
 				limit: 4
 			}).then(messages => {
 				msg.channel.bulkDelete(messages);
