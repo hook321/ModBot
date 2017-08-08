@@ -179,7 +179,7 @@ bot.on("messageUpdate", (msg, newMsg) => {
 });
 
 bot.on("messageDeleteBulk", messages => {
-	if(messages.first().channel.id != config[config.servers[msg.guild.id]].newmemberchannel) {
+	if(messages.first().channel.id != config[config.servers[messages.first().guild.id]].newmemberchannel) {
 		var del = new Discord.RichEmbed();
 		del.setColor(0xFF0000)
 			.setTitle("Messages Deleted [Bulk]")
