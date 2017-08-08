@@ -49,12 +49,8 @@ bot.on("message", (msg) => {
 			msg.member.addRole(config[config.servers[msg.guild.id]].memberrole)
 			.then(msg => {
 				if(msg.guild.id == "176186766946992128")
-					bot.channels.get("200090417809719296").send(msg.author + " has entered the server.")
+					bot.channels.get("200090417809719296").send(msg.author.username + " has entered the server.")
 			});
-
-			setTimeout(function() {
-				msg.guild.members.get(msg.author.id).setNickname(msg.author.username + ' | SET TEAM#')
-			}, 1000)
 
 			bot.channels.get(config[config.servers[msg.guild.id]].memberlogs).send({"embed": new Discord.RichEmbed().setColor(0x1675DB).setAuthor(msg.author.username, msg.author.displayAvatarURL).addField('Member Joined', `**${msg.author} joined the server!**`).setFooter(`${msg.guild.name} | ${msg.guild.members.size} members`, `${msg.guild.iconURL}`).setTimestamp()});
 
@@ -64,12 +60,16 @@ bot.on("message", (msg) => {
 				" or your role in FIRST Robotics if you are not affiliated with a team. If you are not a part of or affiliated directly " + 
 				"with a " + msg.guild.name + " team or the program itself, please contact an administrator for further details.*");
 
-			msg.guild.channels.get(config[config.servers[msg.guild.id]].newmemberchannel).fetchMessages({
+			msg.channel.fetchMessages({
 				limit: 4
 			}).then(messages => {
 				msg.channel.bulkDelete(messages);
 				msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + member.guild.channels.get(config[config.servers[member.guild.id]].ruleschannel).id + "> to enter the server!");
 			})
+			
+			setTimeout(function() {
+				msg.guild.members.get(msg.author.id).setNickname(msg.author.username + ' | SET TEAM#')
+			}, 1000)
 		}
 		
 		
