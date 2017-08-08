@@ -68,7 +68,11 @@ bot.on("message", (msg) => {
 			})
 			
 			setTimeout(function() {
-				msg.guild.members.get(msg.author.id).setNickname(msg.author.username + ' | SET TEAM#')
+				try {
+					msg.guild.members.get(msg.author.id).setNickname(msg.author.username + ' | SET TEAM#')
+				} catch(err) {
+					msg.guild.channels.get(config[config.servers[msg.guild.id]].logchannel).send(err);
+				}
 			}, 1000)
 		}
 		
