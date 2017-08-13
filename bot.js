@@ -46,11 +46,10 @@ bot.on("message", (msg) => {
 		}
 		
 		if (msg.content.includes("have read the rules and regulations") && msg.channel.id === config[config.servers[msg.guild.id]].newmemberchannel) {
+			if(msg.guild.id == "176186766946992128")
+				bot.channels.get('200090417809719296').send(msg.author.username + " entered the server");
+			
 			msg.member.addRole(config[config.servers[msg.guild.id]].memberrole)
-			.then(msg => {
-				if(msg.guild.id == "176186766946992128")
-					bot.channels.get("200090417809719296").send(msg.author.username + " has entered the server.")
-			});
 
 			bot.channels.get(config[config.servers[msg.guild.id]].memberlogs).send({"embed": new Discord.RichEmbed().setColor(0x1675DB).setAuthor(msg.author.username, msg.author.displayAvatarURL).addField('Member Joined', `**${msg.author} joined the server!**`).setFooter(`${msg.guild.name} | ${msg.guild.members.size} members`, `${msg.guild.iconURL}`).setTimestamp()});
 
@@ -112,13 +111,9 @@ bot.on("guildMemberAdd", (member) => {
 });
 
 bot.on("guildMemberRemove", (member) => {
-	var leave = new Discord.RichEmbed();
-	leave.setColor(0xFF0000)
-		.setAuthor(member.user.username, member.user.avatarURL)
-		.addField('Member Left', `*${member.user.username}#${member.user.discriminator} left the server.*`)
-		.setFooter(`${guild.name} | ${guild.members.size} members`, `${guild.iconURL}`)
-		.setTimestamp()
-	bot.channels.get(config[config.servers[member.guild.id]].memberlogs).send({"embed": leave});
+	bot.channels.get(config[config.servers[member.guild.id]].memberlogs).send({
+	  "embed": new Discord.RichEmbed().setColor(0xFF0000).setAuthor(member.user.username, member.user.avatarURL).addField('Member Left', `*${member.user.username}#${member.user.discriminator} left the server.*`).setFooter(`${nenver.guild.name} | ${nenver.guild.members.size} members`, `${member.guild.iconURL}`).setTimestamp()
+	});
 });
 
 bot.on("guildBanRemove", (guild, user) => {
@@ -158,10 +153,8 @@ bot.on("messageDelete", msg => {
 		bot.channels.get(config[config.servers[msg.guild.id]].logchannel).send({embed: del});
 	} else {
 		var urls = [];
-		for(var i = 0; i < msg.attachments.array(); i++) {
-			urls[i] = msg.attachments.array[0].url;
-		}
-		bot.channels.get(config[config.servers[msg.guild.id]].logchannel).send({embed: del, attachments: urls});
+		del.setImage(msg.attachments[0].url)
+		bot.channels.get(config[config.servers[msg.guild.id]].logchannel).send({embed: del});
 	}
 });
 
