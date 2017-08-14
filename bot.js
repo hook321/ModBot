@@ -112,7 +112,7 @@ bot.on("guildMemberAdd", (member) => {
 
 bot.on("guildMemberRemove", (member) => {
 	bot.channels.get(config[config.servers[member.guild.id]].memberlogs).send({
-	  "embed": new Discord.RichEmbed().setColor(0xFF0000).setAuthor(member.user.username, member.user.avatarURL).addField('Member Left', `*${member.user.username}#${member.user.discriminator} left the server.*`).setFooter(`${nenver.guild.name} | ${nenver.guild.members.size} members`, `${member.guild.iconURL}`).setTimestamp()
+	  "embed": new Discord.RichEmbed().setColor(0xFF0000).setAuthor(member.user.username, member.user.avatarURL).addField('Member Left', `*${member.user.username}#${member.user.discriminator} left the server.*`).setFooter(`${member.guild.name} | ${member.guild.members.size} members`, `${member.guild.iconURL}`).setTimestamp()
 	});
 });
 
