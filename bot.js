@@ -193,24 +193,14 @@ bot.on("messageDeleteBulk", messages => {
 
 bot.on("voiceStateUpdate", (oldMember, newMember) => {
 	if(oldMember.guild.id == "176186766946992128") {
+		newMember.removeRoles(['296436001524547584', '296436015156166657', '346495914493607939'])
 		if (newMember.voiceChannel != null) {
 			if (newMember.voiceChannel.name.includes("General #1"))
 				newMember.addRole('296436001524547584')
 			else if (newMember.voiceChannel.name.includes("General #2"))
 				newMember.addRole('296436015156166657')
-			if (oldMember.voiceChannel != null) {
-				if (oldMember.voiceChannel.name.includes("General") && !newMember.voiceChannel.name.includes("General"))
-					newMember.removeRoles(['296436001524547584', '296436015156166657'])
-				else {
-					if (oldMember.voiceChannel.name.includes("General #1") && newMember.voiceChannel.name.includes("General #2"))
-						newMember.removeRole('296436001524547584')
-					else if (oldMember.voiceChannel.name.includes("General #2") && newMember.voiceChannel.name.includes("General #1"))
-						newMember.removeRole('296436015156166657')
-				}
-			}
-		} else {
-			if (oldMember.voiceChannel.name.includes("General"))
-				newMember.removeRoles(['296436001524547584', '296436015156166657'])
+			else if (newMember.voiceChannel.name.includes("General #3"))
+				newMember.addRole('346495914493607939')
 		}
 	}
 });
