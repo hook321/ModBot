@@ -18,7 +18,7 @@ module.exports = {
 					var reason = "Not specified.";
 				
 				user.send("**You have been banned from the FIRST® Robotics Competition server for:**\n" + reason + "\n\n**Responsible Moderator:**\n" + msg.member.displayName +
-				"\n\n*If you would like to appeal the ban, feel free to DM an Admin at any time (ASIANBOI#2345 or TPG#9596). Have a great day!*")
+				"\n\n*If you would like to appeal the ban, either respond to this message or DM an Admin (Michael (ASIANBOI)#7605, GCRose#0393, CalTran#5170, or TPG#2003). Have a great day!*")
 				banned.ban(reason);
 
 				msg.reply(banee + " has been successfullly banned.");

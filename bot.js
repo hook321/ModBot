@@ -45,36 +45,8 @@ bot.on("message", (msg) => {
 			});
 		}
 		
-		if (msg.content.includes("have read the rules and regulations") && msg.channel.id === config[config.servers[msg.guild.id]].newmemberchannel) {
-			if(msg.guild.id == "176186766946992128")
-				bot.channels.get('200090417809719296').send(msg.author.username + " entered the server");
-			
-			msg.member.addRole(config[config.servers[msg.guild.id]].memberrole)
-
-			bot.channels.get(config[config.servers[msg.guild.id]].memberlogs).send({"embed": new Discord.RichEmbed().setColor(0x1675DB).setAuthor(msg.author.username, msg.author.displayAvatarURL).addField('Member Joined', `**${msg.author} joined the server!**`).setFooter(`${msg.guild.name} | ${msg.guild.members.size} members`, `${msg.guild.iconURL}`).setTimestamp()});
-
-			msg.author.send("Thank you for reading the rules and regulations. We would like to welcome you to the " + msg.guild.name + " Discord Server! " +
-				"Please follow the server rules and have fun! Don't hesitate to ping a member of the moderation team " +
-				"if you have any questions! \n\n*Please change your nick with '/nick NAME - TEAM#' to reflect your team number," +
-				" or your role in FIRST Robotics if you are not affiliated with a team. If you are not a part of or affiliated directly " + 
-				"with a " + msg.guild.name + " team or the program itself, please contact an administrator for further details.*");
-
-			msg.channel.fetchMessages({
-				limit: 2
-			}).then(messages => {
-				msg.channel.bulkDelete(messages);
-			})
-			
-			msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + msg.guild.channels.get(config[config.servers[msg.guild.id]].ruleschannel).id + "> to enter the server!");
-			
-			setTimeout(function() {
-				try {
-					msg.guild.members.get(msg.author.id).setNickname(msg.author.username + ' | SET TEAM#')
-				} catch(err) {
-					msg.guild.channels.get(config[config.servers[msg.guild.id]].logchannel).send(err);
-				}
-			}, 1000)
-		}
+		if (msg.channel.id === config[config.servers[msg.guild.id]].newmemberchannel)
+			processWelcomeChannelMessage(msg);
 		
 		
 		/*if(!msg.author.bot && !msg.member.hasPermission("MANAGE_MESSAGES") && msg.content == "" && msg.attachments.size == 0) {
@@ -97,7 +69,22 @@ bot.on("message", (msg) => {
 		command(msg, cmd, args, content);
 	} else {
 		if(msg.author.bot) return;
-		msg.channel.send("This bot cannot be used in DMs!");
+		
+		if(msg.content.length < 50 || msg.content.indexOf('.') < 0 || msg.content.indexOf(" ") < 0)
+			return msg.author.send("Your message does not meet the minimum requirement of 50 characters and one complete sentence!")
+		
+		var e = new Discord.RichEmbed()
+		.setColor(0x1675DB)
+		.setDescription("Feedback Recieved!")
+		.addField("Content", msg.content)
+		.addField("Author", msg.author.tag + " (" + msg.author.id + ")")
+		.setAuthor(msg.author.username, msg.author.avatarURL)
+		.setFooter("FRC Discord Moderation Mail")
+		.setTimestamp()
+		
+		bot.channels.get('352645110237888512').send({embed:e});
+		
+		msg.author.send("Your feedback has been recieved and will be addressed shortly by the moderation team. If you do not recieve a response within 2-3 days, feel free to resubmit or contact an Admin.")
 	}
 });
 
@@ -123,7 +110,7 @@ bot.on("guildBanRemove", (guild, user) => {
 			.addField('Member Unbanned', `**${user.username}#${user.discriminator} (${user.id}) was unbanned from the server.**`)
 			.setFooter(`${guild.name} | ${guild.members.size} members`, `${guild.iconURL}`)
 			.setTimestamp()
-		bot.channels.get(config[config.servers[member.guild.id]].memberlogs).send({"embed": ban});
+		bot.channels.get(config[config.servers[guild.id]].memberlogs).send({"embed": ban});
 });
 
 bot.on("guildBanAdd", (guild, user) => {
@@ -133,7 +120,7 @@ bot.on("guildBanAdd", (guild, user) => {
 		.addField('Member Banned', `**:hammer: ${user.username}#${user.discriminator} (${user.id}) was banned from the server.**`)
 		.setFooter(`${guild.name} | ${guild.members.size} members`, `${guild.iconURL}`)
 		.setTimestamp()
-	bot.channels.get(config[config.servers[member.guild.id]].memberlogs).send({"embed": ban});
+	bot.channels.get(config[config.servers[guild.id]].memberlogs).send({"embed": ban});
 });
 
 bot.on("messageDelete", msg => {
@@ -205,8 +192,13 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 	}
 });
 
+bot.on("ready", () => {
+	setTimeout(() => {
+		collectStatistics(bot.guilds.get("176186766946992128"))
+	}, 900000)
+});
+
 bot.login(config.token).then(() => {
-	var str = "";
 	var currentTime = new Date()
 	var hours = currentTime.getHours()
 	var minutes = currentTime.getMinutes()
@@ -215,8 +207,7 @@ bot.login(config.token).then(() => {
 		minutes = "0" + minutes;
 	if (seconds < 10)
 		seconds = "0" + seconds;
-	str += hours + ":" + minutes + ":" + seconds;
-	console.log(str + " | ModBot Online and Ready!");
+	console.log(hours + ":" + minutes + ":" + seconds + " | ModBot Online and Ready!");
 })
 
 function command(msg, cmd, args, content) {
@@ -259,4 +250,49 @@ function roleCheck(member) {
 		return true;
 	
 	return false;
+}
+
+function processWelcomeChannelMessage(msg) {
+	if(msg.content.includes("have read the rules and regulations")) {
+		if(msg.guild.id == "176186766946992128")
+			bot.channels.get('200090417809719296').send(msg.author.username + " entered the server");
+			
+		msg.member.addRole(config[config.servers[msg.guild.id]].memberrole)
+
+		bot.channels.get(config[config.servers[msg.guild.id]].memberlogs).send({"embed": new Discord.RichEmbed().setColor(0x1675DB).setAuthor(msg.author.username, msg.author.displayAvatarURL).addField('Member Joined', `**${msg.author} joined the server!**`).setFooter(`${msg.guild.name} | ${msg.guild.members.size} members`, `${msg.guild.iconURL}`).setTimestamp()});
+
+		msg.author.send("Thank you for reading the rules and regulations. We would like to welcome you to the " + msg.guild.name + " Discord Server! " +
+				"Please follow the server rules and have fun! Don't hesitate to ping a member of the moderation team " +
+				"if you have any questions! \n\n*Please change your nick with '/nick NAME - TEAM#' to reflect your team number," +
+				" or your role in FIRST Robotics if you are not affiliated with a team. If you are not a part of or affiliated directly " + 
+				"with a " + msg.guild.name + " team or the program itself, please contact an administrator for further details.*");
+
+		msg.channel.fetchMessages({
+			limit: 4
+		}).then(messages => {
+			msg.channel.bulkDelete(messages);
+		})
+			
+		msg.channel.send("Welcome to our server. This is the channel for new member verification. Please read <#" + msg.guild.channels.get(config[config.servers[msg.guild.id]].ruleschannel).id + "> to enter the server!");
+		
+		setTimeout(function() {
+			try {
+				msg.guild.members.get(msg.author.id).setNickname(msg.author.username + ' | SET TEAM#')
+			} catch(err) {
+				msg.guild.channels.get(config[config.servers[msg.guild.id]].logchannel).send(err);
+			}
+		}, 1000)
+	}
+}
+
+function collectStatistics(guild) {
+	var total, online, dnd, idle, offline;
+	var obj = {
+		"ts": null,
+		"total": null,
+		"online": null,
+		"dnd": null,
+		"idle": null,
+		"offline": null
+	}
 }
