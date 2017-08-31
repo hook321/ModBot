@@ -75,14 +75,14 @@ bot.on("message", (msg) => {
 		
 		var e = new Discord.RichEmbed()
 		.setColor(0x1675DB)
-		.setDescription("Feedback Recieved!")
+		.setDescription("Mod Mail Recieved!")
 		.addField("Content", msg.content)
-		.addField("Author", msg.author.tag + " (" + msg.author.id + ")")
+		.addField("Submitted By", "**" + msg.author.tag + "** (" + msg.author.id + ")")
 		.setAuthor(msg.author.username, msg.author.avatarURL)
 		.setFooter("FRC Discord Moderation Mail")
 		.setTimestamp()
 		
-		bot.channels.get('352645110237888512').send({embed:e});
+		bot.channels.get('352645110237888512').send("@here", {embed:e});
 		
 		msg.author.send("Your feedback has been recieved and will be addressed shortly by the moderation team. If you do not recieve a response within 2-3 days, feel free to resubmit or contact an Admin.")
 	}
