@@ -14,13 +14,13 @@ module.exports = {
 			else
 				id = msg.guild.id;
 			
-			msg.channel.overwritePermissions(id, {SEND_MESSAGES: false})
+			msg.channel.overwritePermissions(id, {SEND_MESSAGES: false, ADD_REACTIONS: false})
 			.then(
 				msg.channel.send(`**This channel has been timed out for ${time} seconds by ${msg.author}.**`)
 				.then(msg => {
 					setTimeout(() => {
 						msg.edit("**The timeout period has elapsed.**");
-						msg.channel.overwritePermissions(id, {SEND_MESSAGES: true});
+						msg.channel.overwritePermissions(id, {SEND_MESSAGES: true, ADD_REACTIONS: null});
 					}, time * 1000);
 				})
 			);

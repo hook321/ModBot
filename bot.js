@@ -72,6 +72,8 @@ bot.on("message", (msg) => {
 		
 		if(msg.content.length < 50 || msg.content.indexOf('.') < 0 || msg.content.indexOf(" ") < 0)
 			return msg.author.send("Your message does not meet the minimum requirement of 50 characters and one complete sentence!")
+		if(msg.content.length > 1024)
+			return msg.author.send("Your message is too long!")
 		
 		var e = new Discord.RichEmbed()
 		.setColor(0x1675DB)
@@ -180,7 +182,8 @@ bot.on("messageDeleteBulk", messages => {
 
 bot.on("voiceStateUpdate", (oldMember, newMember) => {
 	if(oldMember.guild.id == "176186766946992128") {
-		newMember.removeRoles(['296436001524547584', '296436015156166657', '346495914493607939'])
+		if (oldMember.voiceChannel && oldMember.voiceChannel.name.includes("General"))
+			newMember.removeRoles(['296436001524547584', '296436015156166657', '346495914493607939'])
 		if (newMember.voiceChannel != null) {
 			if (newMember.voiceChannel.name.includes("General #1"))
 				newMember.addRole('296436001524547584')
@@ -192,11 +195,11 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 	}
 });
 
-bot.on("ready", () => {
+/*bot.on("ready", () => {
 	setTimeout(() => {
 		collectStatistics(bot.guilds.get("176186766946992128"))
 	}, 900000)
-});
+});*/
 
 bot.login(config.token).then(() => {
 	var currentTime = new Date()
