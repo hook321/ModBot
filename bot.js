@@ -20,6 +20,9 @@ var message = chalk.bold.blue;
 var cmand = chalk.bgRed;
 var gray = chalk.gray;
 
+var persistentRolesJson = fse.readFileSync("./persistentRoles.json"),
+    persistentRoles = JSON.parse(persistentRolesJson)
+
 let plugins = new Map();
 
 console.log("Moderation Bot is ready! Loading plugins...");
@@ -103,6 +106,12 @@ bot.on("guildMemberRemove", (member) => {
 	bot.channels.get(config[config.servers[member.guild.id]].memberlogs).send({
 	  "embed": new Discord.RichEmbed().setColor(0xFF0000).setAuthor(member.user.username, member.user.avatarURL).addField('Member Left', `*${member.user.username}#${member.user.discriminator} left the server.*`).setFooter(`${member.guild.name} | ${member.guild.members.size} members`, `${member.guild.iconURL}`).setTimestamp()
 	});
+	
+	if(member.roles.size > 2) {
+		var arr = member.roles.array();
+		persistentRoles[member.user.id] = arr;
+		fs.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
+	}
 });
 
 bot.on("guildBanRemove", (guild, user) => {
@@ -191,6 +200,21 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 				newMember.addRole('296436015156166657')
 			else if (newMember.voiceChannel.name.includes("General #3"))
 				newMember.addRole('346495914493607939')
+		}
+	}
+});
+
+bot.on("guildMemberUpdate", (oldMember, newMember) => {
+	if(msg.guild.id == "176186766946992128") {
+		if(!oldMember.roles.get("246469964574228481") && newMember.roles.get("246469964574228481")) {
+			var persistentRolesJson = fse.readFileSync("./persistentRoles.json"),
+				persistentRoles = JSON.parse(persistentRolesJson)
+			if(persistentRoles[newMember.user.id]) {
+				newMember.addRoles(persistentRoles[newMember.user.id], "Automatic Role Restoration")
+				newMember.user.send("Your roles have been automatically restored :thumbsup:")
+				delete persistentRoles[newMember.user.id]
+				fs.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
+			}
 		}
 	}
 });
