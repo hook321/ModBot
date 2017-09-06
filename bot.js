@@ -111,7 +111,8 @@ bot.on("guildMemberRemove", (member) => {
 		console.log("Writing roles to file!");
 		var arr = [];
 		member.roles.forEach(role => {
-			arr.push(role.id);
+			if(role.id != "246469964574228481")
+				arr.push(role.id);
 		})
 		persistentRoles[member.user.id] = arr;
 		fse.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
@@ -299,7 +300,7 @@ function processWelcomeChannelMessage(msg) {
 				"with a " + msg.guild.name + " team or the program itself, please contact an administrator for further details.*");
 
 		msg.channel.fetchMessages({
-			limit: 4
+			limit: 5
 		}).then(messages => {
 			msg.channel.bulkDelete(messages);
 		})
