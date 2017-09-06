@@ -111,7 +111,7 @@ bot.on("guildMemberRemove", (member) => {
 		console.log("Writing roles to file!");
 		var arr = member.roles.array();
 		persistentRoles[member.user.id] = arr;
-		fs.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
+		fse.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
 	}
 });
 
