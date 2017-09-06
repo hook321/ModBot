@@ -109,7 +109,10 @@ bot.on("guildMemberRemove", (member) => {
 	
 	if(member.roles.size > 2) {
 		console.log("Writing roles to file!");
-		var arr = member.roles.array();
+		var arr = [];
+		member.roles.forEach(role => {
+			arr.push(role.id);
+		})
 		persistentRoles[member.user.id] = arr;
 		fse.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
 	}
