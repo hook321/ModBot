@@ -155,8 +155,7 @@ bot.on("messageDelete", msg => {
 	if(msg.attachments.size == 0) {
 		bot.channels.get(config[config.servers[msg.guild.id]].logchannel).send({embed: del});
 	} else {
-		del.setImage(msg.attachments.array()[0].url)
-		bot.channels.get(config[config.servers[msg.guild.id]].logchannel).send({embed: del});
+		bot.channels.get(config[config.servers[msg.guild.id]].logchannel).send({embed: del, files: msg.attachments.array()});
 	}
 });
 
