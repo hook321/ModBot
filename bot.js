@@ -214,7 +214,7 @@ bot.on("guildMemberUpdate", (oldMember, newMember) => {
 				newMember.addRoles(persistentRoles[newMember.user.id], "Automatic Role Restoration")
 				newMember.user.send("Your roles have been automatically restored :thumbsup:")
 				delete persistentRoles[newMember.user.id]
-				fs.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
+				fse.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
 			}
 		}
 	}
