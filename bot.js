@@ -108,6 +108,7 @@ bot.on("guildMemberRemove", (member) => {
 	});
 	
 	if(member.roles.size > 2) {
+		console.log("Writing roles to file!");
 		var arr = member.roles.array();
 		persistentRoles[member.user.id] = arr;
 		fs.writeFileSync("./persistentRoles.json", JSON.stringify(persistentRoles, null, 3));
@@ -205,7 +206,7 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 });
 
 bot.on("guildMemberUpdate", (oldMember, newMember) => {
-	if(msg.guild.id == "176186766946992128") {
+	if(oldMember.guild.id == "176186766946992128") {
 		if(!oldMember.roles.get("246469964574228481") && newMember.roles.get("246469964574228481")) {
 			var persistentRolesJson = fse.readFileSync("./persistentRoles.json"),
 				persistentRoles = JSON.parse(persistentRolesJson)
