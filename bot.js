@@ -31,16 +31,16 @@ loadPlugins();
 bot.on("ready", () => {
 	bot.user.setPresence({
 		game: {
-			name: "FIRST:registered: Robotics Competition",
+			name: "FIRST® Robotics Competition",
 			type: 0,
-			details: "2018 FIRST Championship - Detroit",
+			/*details: "2018 FIRST Championship - Detroit",
 			state: "Einstein Field Finals",
 			assets: {
 				large_image: "364547048193916938",
 				large_text: "FIRST Robotics Competition",
 				small_image: "364546939368243200"
 			},
-			application_id: "249756544730660874"
+			application_id: "249756544730660874"*/
 		}
 	});
 });
