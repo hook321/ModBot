@@ -32,7 +32,7 @@ bot.on("ready", () => {
 	bot.user.setPresence({
 		game: {
 			name: "FIRST® Robotics Competition",
-			type: 0,
+			type: 0
 			/*details: "2018 FIRST Championship - Detroit",
 			state: "Einstein Field Finals",
 			assets: {
