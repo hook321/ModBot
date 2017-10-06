@@ -12,7 +12,7 @@ module.exports = {
 				msg.channel.send(":x: Role does not exist!");
 			} else if(role.comparePositionTo(msg.member.highestRole) < 0) {
 				msg.guild.members.get(user.id).removeRole(role).then(m => {
-					if(m.roles.has(role.id))
+					if(!m.roles.has(role.id))
 						msg.channel.send("Successfully removed role *" + roleToTake + "* from " + user + ".");
 					else
 						msg.channel.send("Failed to remove role *" + roleToTake + "* from " + user + ".");
