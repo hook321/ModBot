@@ -291,7 +291,7 @@ function loadPlugins() {
 
 function roleCheck(member) {
 	// FRC Server
-	if(member.roles.exists('name', 'Admins') || member.roles.exists('name', 'Moderators') || member.roles.exists('name', 'Helpers'))
+	if(member.roles.exists('name', 'Admins') || member.roles.exists('name', 'Moderators') || member.roles.exists('name', 'Staff'))
 		return true;
 	// FTC Server
 	if(member.roles.exists('name', 'Admin') || member.roles.exists('name', 'Mod') || member.roles.exists('name', 'Trial Mod'))
